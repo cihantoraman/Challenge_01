@@ -12,8 +12,10 @@ public class SlideToggle : MonoBehaviour, IPointerDownHandler
     [SerializeField] private GameObject startPoint;
     [SerializeField] private GameObject endPoint;
     private Image sliderImage;
+    private Image BGImage;
     public Color onColor = Color.green; // Add this line
     public Color offColor = Color.white; // Add this line
+    public ParticleSystem particleSystem;
 
     // Use this for initialization
     void Start()
@@ -22,6 +24,7 @@ public class SlideToggle : MonoBehaviour, IPointerDownHandler
         time = 0;
         duration = 1f;
         sliderImage = slider.GetComponent<Image>();
+        BGImage = GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -36,14 +39,18 @@ public class SlideToggle : MonoBehaviour, IPointerDownHandler
             // Move the slider to the right
             float x = Mathf.Lerp(slider.transform.localPosition.x, y2, curve.Evaluate(time));
             slider.transform.localPosition = new Vector3(x, 0, 0);
-            sliderImage.color = onColor; // Modify this line
+            BGImage.color = onColor; 
+            // sliderImage.color = onColor;
+            PlayParticleSystem();
         }
         else
         {
             // Move the slider to the left
             float x = Mathf.Lerp(slider.transform.localPosition.x, y1, curve.Evaluate(time));
             slider.transform.localPosition = new Vector3(x, 0, 0);
-            sliderImage.color = offColor; // Modify this line
+            // sliderImage.color = offColor;
+            BGImage.color = offColor; 
+
         }
     }
 
@@ -52,5 +59,10 @@ public class SlideToggle : MonoBehaviour, IPointerDownHandler
         // Toggle the state of the slide toggle button
         isOn = !isOn;
         time = 0; // Reset the time whenever we toggle the button
+    }
+    public void PlayParticleSystem()
+    {
+        particleSystem.Play();
+
     }
 }
