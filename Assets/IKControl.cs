@@ -8,6 +8,7 @@ public class IKControl : MonoBehaviour
     public Transform rightHandObj = null;
     public Transform lookObj = null;
 
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -47,7 +48,13 @@ public class IKControl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            OnAnimatorIK();
+            // Play the punch animation when space is pressed
+            ikActive = true;
+        }
+        else if (ikActive && Input.GetKeyUp(KeyCode.Space))
+        {
+            // Stop the punch animation when space is released
+            ikActive = false;
         }
     }
 }
